@@ -1,27 +1,37 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-// //Rectangle
-// ctx.fillStyle = "#FF0000";
-// ctx.fillRect(0, 0, 150, 75);
+var myGamePiece;
 
-// //Draw Line
-// ctx.moveTo(0,0);
-// ctx.lineTo(200,100);
-// ctx.stroke();
+function startGame() {
+    myGameArea.start();
+    myGamePiece = new component(140, 10, "red", 10, 120);
+}
 
-// //Draw Circle
-// ctx.beginPath();
-// ctx.arc(100, 50, 40, 0,Math.PI*2);
-// ctx.stroke();
+var myGameArea = {
+    canvas: document.createElement("canvas"),
+    start: function () {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0])
+        this.interval = setInterval(updateGameArea, 20);
+    },
+    clear: function () {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+};
 
-// Create gradient
-// var grd = ctx.createLinearGradient(0, 0, 200, 0);
-// var grd = ctx.createRadialGradient(75, 50,5,90,60,100);
-// grd.addColorStop(0, "red");
-// grd.addColorStop(1, "white");
-// // Fill with gradient
-// ctx.fillStyle = grd;
-// ctx.fillRect(10, 10, 150, 80);
+function component(width, height, colour, x, y) {
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.fillStyle = colour;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    };
+}
 
-ctx.font = "30px Arial";
-ctx.fillText("Hello World", 10, 50);
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.update();
+}
