@@ -6,9 +6,15 @@
 </head>
 <body onload="startGame()">
     <script src="canvas.js"></script>
-    <button onmousedown="moveup()" onmouseup="stopMove()">Up</button>
-    <button onmousedown="movedown()" onmouseup="stopMove()">Down</button>
-    <button onmousedown="moveleft()" onmouseup="stopMove()">Left</button>
-    <button onmousedown="moveright()" onmouseup="stopMove()">Right</button>
+    <div id="canvasContainer">
+        <div id="restartFilter"></div>
+        <div id="restartButton">
+            <button onclick="restartGame()">Restart</button>
+        </div>
+    </div>
+<!--    <button onmousedown="moveup()" onmouseup="stopMove()">Up</button>-->
+<!--    <button onmousedown="movedown()" onmouseup="stopMove()">Down</button>-->
+<!--    <button onmousedown="moveleft()" onmouseup="stopMove()">Left</button>-->
+<!--    <button onmousedown="moveright()" onmouseup="stopMove()">Right</button>-->
 </body>
 </html>

@@ -8,13 +8,26 @@ function startGame() {
     myGameArea.start();
 }
 
+function restartGame() {
+    document.getElementById("restartFilter").style.display = "none";
+    document.getElementById("restartButton").style.display = "none";
+    myGameArea.stop();
+    myGameArea.clear();
+    myGamePiece = {};
+    myObstacles = [];
+    myscore = {};
+    document.getElementById("canvasGame").remove();
+    startGame();
+}
+
 var myGameArea = {
-    canvas: document.createElement("canvas"),
     start: function () {
+        this.canvas = document.createElement("canvas");
+        this.canvas.setAttribute("id", "canvasGame");
         this.canvas.width = 480;
         this.canvas.height = 270;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        document.getElementById("canvasContainer").appendChild(this.canvas);
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
         //keyboard controllers
@@ -79,12 +92,14 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
+            document.getElementById("restartFilter").style.display = "block";
+            document.getElementById("restartButton").style.display = "block";
             return;
         }
     }
     myGameArea.clear();
     myGameArea.frameNo += 1;
-    if (myGameArea.frameNo === 1 || everyinterval(150)) {
+    if (myGameArea.frameNo === 1 || everyinterval(50)) {
         x = myGameArea.canvas.width;
         minHeight = 20;
         maxHeight = 200;
@@ -96,16 +111,16 @@ function updateGameArea() {
         myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -1;
+        myObstacles[i].x += -3;
         myObstacles[i].update();
     }
     //keyboard controllers
     myGamePiece.speedX = 0;
     myGamePiece.speedY = 0;
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
+    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -3; }
+    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 3; }
+    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -3; }
+    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 3; }
     myScore.text = "SCORE: " + myGameArea.frameNo;
     myScore.update();
     myGamePiece.newPos();
@@ -116,23 +131,23 @@ function everyinterval(n) {
     return (myGameArea.frameNo / n) % 1 === 0;
 }
 
-function moveup() {
-    myGamePiece.speedY -= 1;
-}
-
-function movedown() {
-    myGamePiece.speedY += 1;
-}
-
-function moveleft() {
-    myGamePiece.speedX -= 1;
-}
-
-function moveright() {
-    myGamePiece.speedX += 1;
-}
-
-function stopMove() {
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;
-}
+// function moveup() {
+//     myGamePiece.speedY -= 1;
+// }
+//
+// function movedown() {
+//     myGamePiece.speedY += 1;
+// }
+//
+// function moveleft() {
+//     myGamePiece.speedX -= 1;
+// }
+//
+// function moveright() {
+//     myGamePiece.speedX += 1;
+// }
+//
+// function stopMove() {
+//     myGamePiece.speedX = 0;
+//     myGamePiece.speedY = 0;
+// }
